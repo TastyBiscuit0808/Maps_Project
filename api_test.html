@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <link rel = "stylesheet" href = "https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps.css" type = "text/css">
+        <script = type = "text/javascript" src = "https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.js"></script>
+        <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/services/services-web.min.js"></script>
+    </head>
+    <body>
+        <input type="text" id = "query" value= "">
+        <button onClick="search()">Search</button>
+        <div id = "map" style = "width: 40vw;height: 350px">Hello</div>
+    </body>
+    <script type="text/javascript">
+        var APIKEY = "79F9KuIoMMzAECRyqRFUG0EaeUGrTd7Y"
+        let center = [4,44.4]
+        var MADRID = [-3.703790,40.416775]
+        var LIBSON = [-9.1393,38.7222]
+        const map = tt.map({
+            key: APIKEY,
+            container: "map",
+            center:LIBSON,
+            zoom:14,
+        });
+
+        var moveMap = function(lnglat){
+            map.flyTo({
+                center:lnglat,
+                zoom:14
+            })
+        }
+
+        var handleResults = function(result){
+            console.log(result);
+            if(result.results){
+                moveMap(result.results[0].position)
+            }
+        }
+        var search = function(){
+            tt.services.fuzzySearch({
+                key:APIKEY,
+                query: document.getElementById("query").value,
+            }).then(handleResults)
+        }
+    </script>
+</html>
+
